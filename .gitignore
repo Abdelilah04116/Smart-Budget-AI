@@ -1,0 +1,25 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build directories
+bin/
+obj/
+
+# NuGet
+packages/
+*.nupkg
+
+# Logs
+*.log
+
+# Cache
+*.cache
+
+# OS files
+Thumbs.db
+*.DS_Store
+
+# ASP.NET specific
+App_Data/

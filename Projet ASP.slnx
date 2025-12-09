@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/Éléments de solution/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="Projet ASP/Projet ASP.csproj" />
+</Solution>
