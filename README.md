@@ -1,10 +1,10 @@
-﻿# 🤖 SmartBudget AI - Application de Gestion Budgétaire avec Intelligence Artificielle
+﻿#  SmartBudget AI - Application de Gestion Budgétaire avec Intelligence Artificielle
 
-## 📋 Description
+##  Description
 
 SmartBudget AI est une application web ASP.NET Core MVC qui permet de gérer ses finances personnelles avec l'aide de l'intelligence artificielle (ML.NET). L'application utilise un modèle de machine learning pour catégoriser automatiquement les transactions en fonction de leur description.
 
-## 🛠️ Technologies Utilisées
+##  Technologies Utilisées
 
 - **Backend**: ASP.NET Core 8.0 MVC
 - **Base de données**: SQL Server Express + Entity Framework Core
