@@ -48,5 +48,10 @@ namespace SmartBudgetAI.Data
             // Données de seed (optionnel - pour tests)
             // On peut ajouter des données initiales ici si nécessaire
         }
+
+        internal async Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
