@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartBudgetAI.Models
+namespace Projet_ASP.Models
 {
  
     /// ViewModel pour la page de connexion

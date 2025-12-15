@@ -1,16 +1,18 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.ML;
 using Microsoft.ML.Data;
-using SmartBudgetAI.Models;
+using Projet_ASP.Models;
 using System;
 using System.IO;
+using System.Linq;
 
-namespace SmartBudgetAI.Services
+
+namespace Projet_ASP.Services
 {
- 
+
     /// Service d'IA utilisant ML.NET pour la classification de texte
     /// Algorithme: SDCA (Stochastic Dual Coordinate Ascent) pour classification multi-classe
- 
+
     public class AiService : IAiService
     {
         private readonly MLContext _mlContext;

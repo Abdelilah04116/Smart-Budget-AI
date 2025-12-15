@@ -1,6 +1,6 @@
-﻿using SmartBudgetAI.Models;
+﻿using Projet_ASP.Models;
 
-namespace SmartBudgetAI.Services
+namespace Projet_ASP.Services
 {
     /// Interface du service de gestion des transactions
     public interface ITransactionService

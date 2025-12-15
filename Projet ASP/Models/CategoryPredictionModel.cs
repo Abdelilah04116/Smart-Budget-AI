@@ -1,7 +1,7 @@
 ﻿using Microsoft.ML.Data;
 using System.Collections.Generic;
 
-namespace SmartBudgetAI.Models
+namespace Projet_ASP.Models
 {
     /// <summary>
     /// Modèle d'entrée pour ML.NET : données à analyser

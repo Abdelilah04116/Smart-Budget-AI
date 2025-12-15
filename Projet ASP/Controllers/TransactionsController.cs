@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projet_ASP.Services;
-using SmartBudgetAI.Models;
-using SmartBudgetAI.Services;
+using Projet_ASP.Models;
+using Projet_ASP.Services;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace SmartBudgetAI.Controllers
+namespace Projet_ASP.Controllers
 {
     /// Contrôleur CRUD pour les transactions
     [Authorize]

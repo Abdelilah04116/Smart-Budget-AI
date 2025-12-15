@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartBudgetAI.Services;
-using System;
+using Projet_ASP.Services;
 
-namespace SmartBudgetAI.Controllers
+namespace Projet_ASP.Controllers
 {
-    /// Contrôleur API pour les fonctionnalités d'IA
-    /// Fournit un endpoint AJAX pour prédire les catégories
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -19,9 +16,6 @@ namespace SmartBudgetAI.Controllers
             _aiService = aiService;
         }
 
-        /// API: Prédit la catégorie d'une transaction
-        /// POST: /api/ai/predict-category
-        /// Body: { "description": "Achat supermarché" }
         [HttpPost("predict-category")]
         public IActionResult PredictCategory([FromBody] PredictionRequest request)
         {
@@ -42,7 +36,6 @@ namespace SmartBudgetAI.Controllers
         }
     }
 
-    /// DTO pour la requête de prédiction
     public class PredictionRequest
     {
         public string Description { get; set; } = string.Empty;

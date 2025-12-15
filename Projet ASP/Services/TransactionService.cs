@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartBudgetAI.Data;
-using SmartBudgetAI.Models;
+using Projet_ASP.Data;
+using Projet_ASP.Models;
 
-namespace SmartBudgetAI.Services
+namespace Projet_ASP.Services
 {
     /// Service de gestion des transactions avec logique métier
     public class TransactionService : ITransactionService

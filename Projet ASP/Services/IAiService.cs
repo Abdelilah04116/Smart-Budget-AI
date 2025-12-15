@@ -1,4 +1,4 @@
-﻿namespace SmartBudgetAI.Services
+﻿namespace Projet_ASP.Services
 {
     /// Interface du service d'intelligence artificielle
     /// Utilise ML.NET pour prédire les catégories de transactions

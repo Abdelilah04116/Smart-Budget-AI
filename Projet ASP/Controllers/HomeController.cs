@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projet_ASP.Services;
-using SmartBudgetAI.Services;
+using Projet_ASP.Models;
+using Projet_ASP.Services;
 using System.Security.Claims;
 
-namespace SmartBudgetAI.Controllers
+namespace Projet_ASP.Controllers
 {
     /// Contrôleur principal pour la page d'accueil et le dashboard
     [Authorize] // Nécessite une authentification pour accéder

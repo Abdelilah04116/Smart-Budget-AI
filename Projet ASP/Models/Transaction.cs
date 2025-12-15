@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartBudgetAI.Models
+namespace Projet_ASP.Models
 {
     /// Modèle représentant une transaction financière
     public class Transaction

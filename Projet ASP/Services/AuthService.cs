@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using SmartBudgetAI.Models;
+using Projet_ASP.Models;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
-namespace SmartBudgetAI.Services
+
+namespace Projet_ASP.Services
 {
     /// Service d'authentification utilisant ASP.NET Core Identity
     public class AuthService : IAuthService
@@ -49,8 +51,8 @@ namespace SmartBudgetAI.Services
                 model.Password,
                 model.RememberMe,
                 lockoutOnFailure: false
-            );
-        }
+            ); 
+        }   
 
         /// Déconnexion de l'utilisateur actuel
         public async Task LogoutAsync()

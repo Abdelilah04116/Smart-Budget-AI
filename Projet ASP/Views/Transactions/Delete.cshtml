@@ -1,0 +1,52 @@
+﻿@model Transaction
+@{
+    ViewData["Title"] = "Supprimer Transaction";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3><i class="fas fa-exclamation-triangle"></i> Confirmer la suppression</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-circle"></i>
+                    Êtes-vous sûr de vouloir supprimer cette transaction ? Cette action est irréversible.
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-4">Description:</dt>
+                    <dd class="col-sm-8">@Model.Description</dd>
+
+                    <dt class="col-sm-4">Montant:</dt>
+                    <dd class="col-sm-8">
+                        <strong class="@(Model.Amount >= 0 ? "text-success" : "text-danger")">
+                            @Model.Amount.ToString("C")
+                        </strong>
+                    </dd>
+
+                    <dt class="col-sm-4">Catégorie:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-secondary">@Model.Category</span>
+                    </dd>
+
+                    <dt class="col-sm-4">Date:</dt>
+                    <dd class="col-sm-8">@Model.Date.ToString("dd/MM/yyyy")</dd>
+                </dl>
+
+                <form asp-action="Delete" method="post">
+                    <input asp-for="Id" type="hidden" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger btn-lg">
+                            <i class="fas fa-trash"></i> Confirmer la suppression
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Annuler
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

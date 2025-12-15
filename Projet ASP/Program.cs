@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SmartBudgetAI.Data;
-using SmartBudgetAI.Models;
-using SmartBudgetAI.Services;
+using Projet_ASP.Data;
+using Projet_ASP.Models;
+using Projet_ASP.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

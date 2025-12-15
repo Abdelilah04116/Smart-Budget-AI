@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartBudgetAI.Models;
-using SmartBudgetAI.Services;
+using Projet_ASP.Models;
+using Projet_ASP.Services;
 using System.Threading.Tasks;
 
-namespace SmartBudgetAI.Controllers
+namespace Projet_ASP.Controllers
 {
     /// Contrôleur pour l'authentification (inscription, connexion, déconnexion)
     public class AuthController : Controller

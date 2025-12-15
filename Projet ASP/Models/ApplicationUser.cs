@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SmartBudgetAI.Models
+namespace Projet_ASP.Models
 {
      
     /// Modèle utilisateur étendu basé sur IdentityUser

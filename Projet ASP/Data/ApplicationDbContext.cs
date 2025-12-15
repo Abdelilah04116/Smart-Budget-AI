@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SmartBudgetAI.Models;
+using Projet_ASP.Models;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
-namespace SmartBudgetAI.Data
+namespace Projet_ASP.Data
 {
     /// DbContext principal de l'application
     /// Hérite de IdentityDbContext pour intégrer ASP.NET Core Identity
