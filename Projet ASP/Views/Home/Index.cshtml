@@ -1,8 +1,182 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Projet_ASP.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4"><i class="fas fa-chart-line"></i> Dashboard Financier</h1>
+        <p class="lead">Vue d'ensemble de vos finances personnelles</p>
+    </div>
 </div>
+
+<!-- Cartes de statistiques -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-arrow-up"></i> Revenus</h5>
+                <h2 class="card-text">@Model.TotalIncome.ToString("C")</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-arrow-down"></i> Dépenses</h5>
+                <h2 class="card-text">@Model.TotalExpenses.ToString("C")</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-balance-scale"></i> Balance</h5>
+                <h2 class="card-text">@Model.Balance.ToString("C")</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="card-title"><i class="fas fa-list-ol"></i> Transactions</h5>
+                <h2 class="card-text">@Model.TransactionCount</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Graphiques -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-chart-pie"></i> Dépenses par catégorie</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="expensesChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5><i class="fas fa-chart-bar"></i> Revenus par catégorie</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="incomeChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Transactions récentes -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-history"></i> Transactions récentes</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentTransactions.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Catégorie</th>
+                                    <th class="text-end">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var transaction in Model.RecentTransactions)
+                                {
+                                    <tr>
+                                        <td>@transaction.Date.ToString("dd/MM/yyyy")</td>
+                                        <td>
+                                            @transaction.Description
+                                            @if (transaction.IsAiCategorized)
+                                            {
+                                                <span class="badge bg-info" title="Catégorisé par IA">
+                                                    <i class="fas fa-brain"></i> AI
+                                                </span>
+                                            }
+                                        </td>
+                                        <td><span class="badge bg-secondary">@transaction.Category</span></td>
+                                        <td class="text-end">
+                                            <span class="@(transaction.Amount >= 0 ? "text-success" : "text-danger")">
+                                                @transaction.Amount.ToString("C")
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <a asp-controller="Transactions" asp-action="Index" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> Voir toutes les transactions
+                    </a>
+                }
+                else
+                {
+                    <p class="text-muted">Aucune transaction pour le moment.</p>
+                    <a asp-controller="Transactions" asp-action="Create" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Créer votre première transaction
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Graphique des dépenses par catégorie (Pie Chart)
+        const expensesData = @Html.Raw(Json.Serialize(Model.ExpensesByCategory));
+        const expensesCtx = document.getElementById('expensesChart').getContext('2d');
+        new Chart(expensesCtx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(expensesData),
+                datasets: [{
+                    data: Object.values(expensesData),
+                    backgroundColor: [
+                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // Graphique des revenus par catégorie (Bar Chart)
+        const incomeData = @Html.Raw(Json.Serialize(Model.IncomeByCategory));
+        const incomeCtx = document.getElementById('incomeChart').getContext('2d');
+        new Chart(incomeCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(incomeData),
+                datasets: [{
+                    label: 'Revenus (€)',
+                    data: Object.values(incomeData),
+                    backgroundColor: '#28a745'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+}

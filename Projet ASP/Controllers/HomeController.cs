@@ -1,25 +1,42 @@
-using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Projet_ASP.Services;
 using Projet_ASP.Models;
+using Projet_ASP.Services;
+using System.Security.Claims;
 
 namespace Projet_ASP.Controllers
 {
+    /// Contrôleur principal pour la page d'accueil et le dashboard
+    [Authorize] // Nécessite une authentification pour accéder
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ITransactionService _transactionService;
+
+        public HomeController(ITransactionService transactionService)
         {
-            return View();
+            _transactionService = transactionService;
         }
 
-        public IActionResult Privacy()
+        /// Page d'accueil avec dashboard
+        /// Route: /Home/Index ou /
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+
+            var dashboardData = await _transactionService.GetDashboardDataAsync(userId);
+            return View(dashboardData);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        /// Page d'erreur
+        [AllowAnonymous]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }
