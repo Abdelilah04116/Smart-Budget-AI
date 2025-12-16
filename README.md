@@ -1,5 +1,12 @@
 ﻿#  SmartBudget AI - Application de Gestion Budgétaire avec Intelligence Artificielle
 
+**Contacter Abdelilah Ourti Via** :
+---------
+[![Email](https://img.shields.io/badge/Email-Contact-red)](mailto:abdelilahourti@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/abdelilah-ourti-a529412a8)
+[![GitHub](https://img.shields.io/badge/GitHub-Profile-black)](https://github.com/abdelilah04116)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-orange)](https://abdelilah04116.github.io/)
+
 ##  Description
 
 SmartBudget AI est une application web ASP.NET Core MVC qui permet de gérer ses finances personnelles avec l'aide de l'intelligence artificielle (ML.NET). L'application utilise un modèle de machine learning pour catégoriser automatiquement les transactions en fonction de leur description.
@@ -253,4 +260,8 @@ Pour toute question ou problème :
 
 ---
 
+
 **⭐ N'oubliez pas de star le projet si vous l'avez trouvé utile !**
+
+-----------
+**Abdelilah Ourti**
