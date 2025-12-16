@@ -4,7 +4,6 @@ using Projet_ASP.Models;
 
 namespace Projet_ASP.Services
 {
-    /// Service de gestion des transactions avec logique métier
     public class TransactionService : ITransactionService
     {
         private readonly ApplicationDbContext _context;
@@ -14,7 +13,6 @@ namespace Projet_ASP.Services
             _context = context;
         }
 
-        /// Récupère toutes les transactions d'un utilisateur
         public async Task<List<Transaction>> GetAllByUserIdAsync(string userId)
         {
             return await _context.Transactions
@@ -23,16 +21,12 @@ namespace Projet_ASP.Services
                 .ToListAsync();
         }
 
-        /// <summary>
-        /// Récupère une transaction par ID (avec vérification de propriété)
-        /// </summary>
         public async Task<Transaction?> GetByIdAsync(int id, string userId)
         {
             return await _context.Transactions
                 .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
         }
 
-        /// Crée une nouvelle transaction
         public async Task<Transaction> CreateAsync(Transaction transaction)
         {
             transaction.CreatedAt = DateTime.UtcNow;
@@ -41,7 +35,6 @@ namespace Projet_ASP.Services
             return transaction;
         }
 
-        /// Met à jour une transaction existante
         public async Task<Transaction?> UpdateAsync(Transaction transaction)
         {
             var existing = await GetByIdAsync(transaction.Id, transaction.UserId);
@@ -59,7 +52,6 @@ namespace Projet_ASP.Services
             return existing;
         }
 
-        /// Supprime une transaction
         public async Task<bool> DeleteAsync(int id, string userId)
         {
             var transaction = await GetByIdAsync(id, userId);
@@ -71,7 +63,6 @@ namespace Projet_ASP.Services
             return true;
         }
 
-        /// Génère les données pour le dashboard
         public async Task<DashboardViewModel> GetDashboardDataAsync(string userId)
         {
             var transactions = await GetAllByUserIdAsync(userId);
@@ -86,13 +77,11 @@ namespace Projet_ASP.Services
 
             viewModel.Balance = viewModel.TotalIncome - viewModel.TotalExpenses;
 
-            // Regroupement des dépenses par catégorie
             viewModel.ExpensesByCategory = transactions
                 .Where(t => t.Amount < 0)
                 .GroupBy(t => t.Category)
                 .ToDictionary(g => g.Key, g => Math.Abs(g.Sum(t => t.Amount)));
 
-            // Regroupement des revenus par catégorie
             viewModel.IncomeByCategory = transactions
                 .Where(t => t.Amount > 0)
                 .GroupBy(t => t.Category)

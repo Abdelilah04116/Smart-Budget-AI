@@ -14,7 +14,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                     <div class="mb-3">
-                        <label asp-for="Description" class="form-label"></label>
+                        <label asp-for="Description" class="form-label">Description *</label>
                         <input asp-for="Description" class="form-control" id="descriptionInput" 
                                placeholder="Ex: Achat supermarché Carrefour" />
                         <span asp-validation-for="Description" class="text-danger"></span>
@@ -24,28 +24,28 @@
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Amount" class="form-label"></label>
+                        <label asp-for="Amount" class="form-label">Montant * (€)</label>
                         <input asp-for="Amount" class="form-control" type="number" step="0.01" 
-                               placeholder="Montant (positif pour revenu, négatif pour dépense)" />
+                               placeholder="Ex: -50.00 pour dépense ou 1500.00 pour revenu" />
                         <span asp-validation-for="Amount" class="text-danger"></span>
                         <small class="form-text text-muted">
-                            💡 Utilisez un montant négatif pour une dépense, positif pour un revenu
+                            💡 Montant négatif = dépense | Montant positif = revenu
                         </small>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Category" class="form-label"></label>
+                        <label asp-for="Category" class="form-label">Catégorie *</label>
                         <input asp-for="Category" class="form-control" id="categoryInput" 
                                placeholder="Ex: Alimentation, Transport, Salaire..." list="categoryList" />
                         <datalist id="categoryList">
-                            <option value="Alimentation">Alimentation</option>
-                            <option value="Transport">Transport</option>
-                            <option value="Logement">Logement</option>
-                            <option value="Santé">Santé</option>
-                            <option value="Loisirs">Loisirs</option>
-                            <option value="Shopping">Shopping</option>
-                            <option value="Salaire">Salaire</option>
-                            <option value="Autre">Autre</option>
+                            <option value="Alimentation"></option>
+                            <option value="Transport"></option>
+                            <option value="Logement"></option>
+                            <option value="Santé"></option>
+                            <option value="Loisirs"></option>
+                            <option value="Shopping"></option>
+                            <option value="Salaire"></option>
+                            <option value="Autre"></option>
                         </datalist>
                         <span asp-validation-for="Category" class="text-danger"></span>
                         <div id="aiCategoryIndicator" class="mt-2" style="display:none;">
@@ -56,16 +56,17 @@
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Date" class="form-label"></label>
-                        <input asp-for="Date" class="form-control" type="date" />
+                        <label asp-for="Date" class="form-label">Date *</label>
+                        <input asp-for="Date" class="form-control" type="date" 
+                               value="@DateTime.Now.ToString("yyyy-MM-dd")" />
                         <span asp-validation-for="Date" class="text-danger"></span>
                     </div>
 
-                    <input asp-for="IsAiCategorized" type="hidden" id="isAiCategorizedInput" />
+                    <input asp-for="IsAiCategorized" type="hidden" id="isAiCategorizedInput" value="false" />
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-success btn-lg">
-                            <i class="fas fa-save"></i> Enregistrer
+                            <i class="fas fa-save"></i> Enregistrer la transaction
                         </button>
                         <a asp-action="Index" class="btn btn-secondary">
                             <i class="fas fa-times"></i> Annuler
@@ -79,6 +80,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         document.getElementById('aiPredictBtn').addEventListener('click', async function() {
             const description = document.getElementById('descriptionInput').value;
@@ -105,9 +107,6 @@
                     document.getElementById('categoryInput').value = data.category;
                     document.getElementById('isAiCategorizedInput').value = 'true';
                     document.getElementById('aiCategoryIndicator').style.display = 'block';
-                    
-                    const indicator = document.getElementById('aiCategoryIndicator');
-                    indicator.classList.add('animate__animated', 'animate__fadeIn');
                 } else {
                     alert('Erreur lors de la prédiction. Veuillez réessayer.');
                 }

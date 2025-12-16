@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Projet_ASP.Services;
+using System.Security.Claims;
 using Projet_ASP.Models;
 using Projet_ASP.Services;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Projet_ASP.Controllers
 {
-    /// Contrôleur CRUD pour les transactions
     [Authorize]
     public class TransactionsController : Controller
     {
@@ -24,7 +20,6 @@ namespace Projet_ASP.Controllers
             _aiService = aiService;
         }
 
-        /// GET: Liste de toutes les transactions
         public async Task<IActionResult> Index()
         {
             var userId = GetCurrentUserId();
@@ -32,30 +27,49 @@ namespace Projet_ASP.Controllers
             return View(transactions);
         }
 
-        /// GET: Formulaire de création d'une transaction
         public IActionResult Create()
         {
-            return View();
+            var model = new Transaction
+            {
+                Date = DateTime.Now
+            };
+            return View(model);
         }
 
-        /// POST: Créer une nouvelle transaction
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Transaction transaction)
         {
+            ModelState.Remove("UserId");
+            ModelState.Remove("User");
+
             if (!ModelState.IsValid)
             {
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine($"Erreur validation: {error.ErrorMessage}");
+                }
                 return View(transaction);
             }
 
-            transaction.UserId = GetCurrentUserId();
-            await _transactionService.CreateAsync(transaction);
+            try
+            {
+                transaction.UserId = GetCurrentUserId();
+                transaction.CreatedAt = DateTime.UtcNow;
 
-            TempData["SuccessMessage"] = "Transaction créée avec succès !";
-            return RedirectToAction(nameof(Index));
+                await _transactionService.CreateAsync(transaction);
+
+                TempData["SuccessMessage"] = "Transaction créée avec succès !";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur création: {ex.Message}");
+                ModelState.AddModelError("", $"Erreur lors de la création: {ex.Message}");
+                return View(transaction);
+            }
         }
 
-        /// GET: Formulaire d'édition d'une transaction
         public async Task<IActionResult> Edit(int id)
         {
             var userId = GetCurrentUserId();
@@ -69,7 +83,6 @@ namespace Projet_ASP.Controllers
             return View(transaction);
         }
 
-        /// POST: Mettre à jour une transaction
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Transaction transaction)
@@ -78,6 +91,9 @@ namespace Projet_ASP.Controllers
             {
                 return BadRequest();
             }
+
+            ModelState.Remove("UserId");
+            ModelState.Remove("User");
 
             if (!ModelState.IsValid)
             {
@@ -96,7 +112,6 @@ namespace Projet_ASP.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        /// GET: Page de confirmation de suppression
         public async Task<IActionResult> Delete(int id)
         {
             var userId = GetCurrentUserId();
@@ -110,7 +125,6 @@ namespace Projet_ASP.Controllers
             return View(transaction);
         }
 
-        /// POST: Supprimer une transaction
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -127,7 +141,6 @@ namespace Projet_ASP.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        /// Méthode helper pour récupérer l'ID de l'utilisateur connecté
         private string GetCurrentUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier)
